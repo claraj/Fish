@@ -3,25 +3,24 @@ package gofish;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static input.InputUtils.stringInput;
+
 public class HumanPlayer extends Player {
 
-    static Scanner scanner;
 
     public HumanPlayer(String name) {
         super(name);
-        scanner = new Scanner(System.in);
     }
 
     @Override
     protected String identifyCardValueToAskFor() {
-        System.out.println("What card value do you want to ask for?");
-
-        String cardValRequested = scanner.nextLine().toUpperCase();
-        while (!hand.hasCardOfThisValue(cardValRequested)) {
-                  //Validation and also prevents cheating. Can only request a value that the human has in hand
+       
+        String cardValRequested;
+        
+        do {
+            cardValRequested = stringInput("What card value do you want to ask for?").toUpperCase();
             System.out.println("You need to have a " + cardValRequested + " already to request more. Try again");
-            cardValRequested = scanner.nextLine().toUpperCase();
-        }
+        } while (!hand.hasCardOfThisValue(cardValRequested));
 
         return cardValRequested;
     }
